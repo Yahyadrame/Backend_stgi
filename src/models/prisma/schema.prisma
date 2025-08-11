@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Folder {
+  id        Int          @id @default(autoincrement())
+  name      String
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  instructions Instruction[]
+}
+
+model Instruction {
+  id        Int          @id @default(autoincrement())
+  title     String
+  folderId  Int
+  order     Int          @default(0)
+  folder    Folder       @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  steps     Step[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Step {
+  id            Int          @id @default(autoincrement())
+  instructionId Int
+  instruction   Instruction  @relation(fields: [instructionId], references: [id], onDelete: Cascade)
+  action        String
+  component     String?
+  location      String?
+  toolId        Int?
+  tool          Tool?        @relation(fields: [toolId], references: [id])
+  details       String?
+  objective     String?
+  media         String?
+  order         Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Tool {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  type        String?
+  location    String?
+  image       String?
+  steps       Step[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}

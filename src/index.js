@@ -7,7 +7,17 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000' })); // Autorise les requêtes depuis Next.js
+// Configuration CORS 
+const allowedOrigins = [
+  'http://localhost:3000',      // Développement local
+  'http://13.38.105.133',       // Frontend en production (HTTP)
+  'https://13.38.105.133'       // Frontend en production (HTTPS si configuré)
+];
+
+app.use(cors({ 
+  origin: allowedOrigins,
+  credentials: true 
+}));
 app.use(express.json());
 app.use('/uploads', express.static('public/uploads'));
 app.use('/api', routes);

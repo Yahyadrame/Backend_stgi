@@ -28,7 +28,8 @@ FROM node:18-alpine AS production
 RUN apk add --no-cache \
     openssl \
     ffmpeg \
-    dumb-init
+    dumb-init \
+    curl
 
 # Création d'un utilisateur non-root pour la sécurité
 RUN addgroup -g 1001 -S nodejs

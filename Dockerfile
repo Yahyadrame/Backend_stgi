@@ -13,7 +13,7 @@ WORKDIR /app
 
 # Copie des fichiers de configuration des dépendances
 COPY package*.json ./
-COPY src/models/prisma/schema.prisma ./src/models/prisma/
+COPY src/models/prisma/schema.prisma ./prisma/schema.prisma
 
 # Installation des dépendances
 RUN npm ci --only=production && npm cache clean --force
@@ -38,7 +38,7 @@ WORKDIR /app
 
 # Copie des dépendances installées depuis le stage base
 COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/src/models/prisma/schema.prisma ./src/models/prisma/
+COPY --from=base /app/prisma/schema.prisma ./prisma/schema.prisma
 
 # Copie du code source
 COPY --chown=nextjs:nodejs . .

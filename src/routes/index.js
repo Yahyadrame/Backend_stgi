@@ -7,6 +7,11 @@ const videoRoutes = require('./videoRoutes');
 
 const router = express.Router();
 
+// Route de health check
+router.get('/', (req, res) => {
+  res.json({ status: 'OK', message: 'Backend STGI API is running' });
+});
+
 router.use('/folders', folderRoutes);
 router.use('/instructions', instructionRoutes);
 router.use('/steps', stepRoutes);
